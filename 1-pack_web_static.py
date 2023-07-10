@@ -1,22 +1,24 @@
 #!/usr/bin/python3
 # script that distributes an archive to the web servers, using the function do_deploy:
 import os
-from datetime import datetim
+from datetime import datetime
 from fabric.api import local
-from fabric import task
 
-@task
 def do_pack():
     """ Archiving static files """
-    if os.path.isdir(" /versions") is False:
-        local("mkdir versions").failed:
-            return None
-
     date = datetime.now()
-    file = f"versions/web_static_{date.year}{date.month}{date.day}{date.hour}{date.minute}{date.second}.tgz"
+    file = "versions/web_static_{}{}{}{}{}{}.tgz".format(date.year,
+        date.month,
+        date.day,
+        date.hour,
+        date.minute,
+        date.second)
 
-    with cd("versions"):
-        if local(f"tar -czvf {file} web_static").failed:
+    if os.path.isdir("versions") is False:
+       if local("mkdir -p versions").failed is True:
             return None
 
-    return f"versions/{file}"
+    if local("tar -czvf {} web_static".format(file)).failed is True:
+            return None
+
+    return file
