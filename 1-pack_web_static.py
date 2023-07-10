@@ -1,4 +1,5 @@
-cript that distributes an archive to the web servers
+#!/usr/bin/python3
+# script that distributes an archive to the web servers
 # using the function do_deploy:
 """A module for Fabric script that generates a .tgz archive."""
 import os
@@ -15,13 +16,10 @@ def do_pack():
                                                          date.hour,
                                                          date.minute,
                                                          date.second)
-
     if os.path.isdir("versions") is False:
         if local("mkdir -p versions").failed is True:
             return None
-
-    if local("tar -czvf {} web_static".format(file)).failed is True:
+    if local("tar -cvzf {} web_static".format(file)).failed is True:
         return None
-
     return file
 
