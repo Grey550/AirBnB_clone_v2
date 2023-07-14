@@ -18,8 +18,7 @@ def do_pack():
                                                          date.day,
                                                          date.hour,
                                                          date.minute,
-                                                         date.second)
-    
+                                                         date.second)    
     try:
         print("Packing web_static to {}".format(file))
         local("tar -cvzf {} web_static".format(file))
